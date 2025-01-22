@@ -17,13 +17,13 @@ const CountrySearch = () => {
 
         // Transform data to ensure country.name exists
         const transformedData = data.map((country) => ({
-          common: country.common || 'Unknown',
-          png: country.png || '', // ensure flag is an empty string if not available
+          name: country.name || 'Unknown',
+          flag: country.flag || '', // ensure flag is an empty string if not available
         }));
 
         setCountries(transformedData);
       } catch (err) {
-        console.error(err);
+        console.error('Error fetching country data:', err);
         setError('Error fetching country data');
       }
     };
@@ -34,7 +34,7 @@ const CountrySearch = () => {
   // Filter countries based on search term
   const filteredCountries = searchTerm
     ? countries.filter((country) =>
-        country.common.toLowerCase().includes(searchTerm.toLowerCase())
+        country.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : countries;
 
@@ -52,14 +52,13 @@ const CountrySearch = () => {
       <div className="country-grid">
         {filteredCountries.length > 0 ? (
           filteredCountries.map((country) => (
-            <div key={country.common} className="countryCard">
-              {/* Check if flag URL is valid */}
+            <div key={country.name} className="countryCard">
               <img
-                src={country.png ? country.png : 'https://via.placeholder.com/150?text=No+Flag'}
-                alt={country.common}
+                src={country.flag ? country.flag : 'https://via.placeholder.com/150?text=No+Flag'}
+                alt={country.name}
                 className="country-flag"
               />
-              <p>{country.common}</p>
+              <p>{country.name}</p>
             </div>
           ))
         ) : (

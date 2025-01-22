@@ -11,21 +11,24 @@ const CountrySearch = () => {
       try {
         console.log('Initiating API call...');
         const response = await fetch('https://countries-search-data-prod-812920491762.asia-south1.run.app/countries');
+        console.log('API call completed with status:', response.status);
+
         if (!response.ok) {
-          throw new Error(`API returned status ${response.status}`);
+          throw new Error(`API returned an error: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log('API call successful. Data:', data);
+        console.log('API call successful. Response data:', data);
 
         const transformedData = data.map((country) => ({
-          name: country.common || 'Unknown',
-          flag: country.png || '',
+          name: country.name || 'Unknown',
+          flag: country.flag || '',
         }));
 
+        console.log('Transformed countries:', transformedData);
         setCountries(transformedData);
       } catch (err) {
-        console.error('Error in API call:', err.message);
+        console.error('Error fetching country data:', err.message);
         setError('Error fetching country data');
       }
     };
@@ -38,7 +41,7 @@ const CountrySearch = () => {
   );
 
   console.log('Search Term:', searchTerm);
-  console.log('Filtered Results:', filteredCountries);
+  console.log('Filtered Countries:', filteredCountries);
 
   return (
     <div className="country-search-container">

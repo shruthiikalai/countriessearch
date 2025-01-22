@@ -9,12 +9,10 @@ const CountrySearch = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        console.log('Initiating API call...');
+        console.log('API call started...');
         const response = await fetch('https://countries-search-data-prod-812920491762.asia-south1.run.app/countries');
-        console.log('API call completed with status:', response.status);
-
         if (!response.ok) {
-          throw new Error(`API returned an error: ${response.status}`);
+          throw new Error(`API returned status ${response.status}`);
         }
 
         const data = await response.json();
@@ -25,10 +23,10 @@ const CountrySearch = () => {
           flag: country.png || '',
         }));
 
-        console.log('Transformed countries:', transformedData);
+        console.log('Transformed data:', transformedData);
         setCountries(transformedData);
       } catch (err) {
-        console.error('Error fetching country data:', err.message);
+        console.error(`Error fetching countries: ${err.message}`);
         setError('Error fetching country data');
       }
     };
@@ -59,7 +57,7 @@ const CountrySearch = () => {
           filteredCountries.map((country) => (
             <div key={country.name} className="countryCard">
               <img
-                src={country.flag ? country.flag : 'https://via.placeholder.com/150?text=No+Flag'}
+                src={country.flag || 'https://via.placeholder.com/150?text=No+Flag'}
                 alt={country.name}
                 className="country-flag"
               />

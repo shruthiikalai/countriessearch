@@ -9,24 +9,23 @@ const CountrySearch = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        console.log('Fetching countries...'); // Debugging
+        console.log('Initiating API call...');
         const response = await fetch('https://countries-search-data-prod-812920491762.asia-south1.run.app/countries');
         if (!response.ok) {
-          throw new Error(`API returned status: ${response.status}`);
+          throw new Error(`API returned status ${response.status}`);
         }
 
         const data = await response.json();
+        console.log('API call successful. Data:', data);
 
-        // Transform data to ensure country.name and country.flag exist
         const transformedData = data.map((country) => ({
           name: country.common || 'Unknown',
           flag: country.png || '',
         }));
 
         setCountries(transformedData);
-        console.log('Countries fetched successfully:', transformedData); // Debugging
       } catch (err) {
-        console.error('Error fetching country data:', err.message); // Logs detailed error
+        console.error('Error in API call:', err.message);
         setError('Error fetching country data');
       }
     };
@@ -34,11 +33,12 @@ const CountrySearch = () => {
     fetchCountries();
   }, []);
 
-  const filteredCountries = searchTerm
-    ? countries.filter((country) =>
-        country.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : countries;
+  const filteredCountries = countries.filter((country) =>
+    country.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  console.log('Search Term:', searchTerm);
+  console.log('Filtered Results:', filteredCountries);
 
   return (
     <div className="country-search-container">

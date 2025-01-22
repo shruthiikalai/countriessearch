@@ -21,8 +21,8 @@ const CountrySearch = () => {
         console.log('API call successful. Response data:', data);
 
         const transformedData = data.map((country) => ({
-          name: country.name || 'Unknown',
-          flag: country.flag || '',
+          name: country.common || 'Unknown',
+          flag: country.png || '',
         }));
 
         console.log('Transformed countries:', transformedData);

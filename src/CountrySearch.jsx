@@ -17,8 +17,8 @@ const CountrySearch = () => {
 
         // Transform data to ensure country.name exists
         const transformedData = data.map((country) => ({
-          name: country.name || 'Unknown',
-          flag: country.flag || '', // ensure flag is an empty string if not available
+          name: country.common || 'Unknown',
+          flag: country.png || '', // ensure flag is an empty string if not available
         }));
 
         setCountries(transformedData);

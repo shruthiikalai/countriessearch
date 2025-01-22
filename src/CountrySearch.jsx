@@ -9,21 +9,24 @@ const CountrySearch = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
+        console.log('Fetching countries...'); // Debugging
         const response = await fetch('https://countries-search-data-prod-812920491762.asia-south1.run.app/countries');
         if (!response.ok) {
-          throw new Error('Failed to fetch countries');
+          throw new Error(`API returned status: ${response.status}`);
         }
+
         const data = await response.json();
 
-        // Transform data to ensure country.name exists
+        // Transform data to ensure country.name and country.flag exist
         const transformedData = data.map((country) => ({
           name: country.common || 'Unknown',
-          flag: country.png || '', // ensure flag is an empty string if not available
+          flag: country.png || '',
         }));
 
         setCountries(transformedData);
+        console.log('Countries fetched successfully:', transformedData); // Debugging
       } catch (err) {
-        console.error('Error fetching country data:', err);
+        console.error('Error fetching country data:', err.message); // Logs detailed error
         setError('Error fetching country data');
       }
     };
@@ -31,7 +34,6 @@ const CountrySearch = () => {
     fetchCountries();
   }, []);
 
-  // Filter countries based on search term
   const filteredCountries = searchTerm
     ? countries.filter((country) =>
         country.name.toLowerCase().includes(searchTerm.toLowerCase())

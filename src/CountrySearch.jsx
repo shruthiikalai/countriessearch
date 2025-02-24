@@ -10,7 +10,7 @@ const CountrySearch = () => {
     const fetchCountries = async () => {
       try {
         console.log('API call started...');
-        const response = await fetch('https://countries-search-data-prod-812920491762.asia-south1.run.app/countries');
+        const response = await fetch('https://0b9f457a-c7f4-4a28-9f68-2fe10314cedd.mock.pstmn.io/crio');
         if (!response.ok) {
           throw new Error(`API returned status ${response.status}`);
         }

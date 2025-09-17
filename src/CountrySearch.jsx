@@ -11,13 +11,9 @@ const CountrySearch = () => {
     const fetchCountries = async () => {
       try {
         console.log('API call started...');
-<<<<<<< HEAD
         const response = await fetch(
           'https://countries-search-data-prod-812920491762.asia-south1.run.app/countries'
         );
-=======
-        const response = await fetch('https://countries-search-data-prod-812920491762.asia-south1.run.app/countries');
->>>>>>> 2a5919af4cfa1c97010c5c4b9e54c2ee844d9ca9
         if (!response.ok) {
           throw new Error(`API returned status ${response.status}`);
         }
@@ -77,7 +73,6 @@ const CountrySearch = () => {
             </div>
           ))
         ) : (
-          // ✅ Only show "No countries found" if searchTerm is not empty
           !loading && searchTerm && <p>No countries found</p>
         )}
       </div>

@@ -5,12 +5,15 @@ const CountrySearch = () => {
   const [countries, setCountries] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); // NEW: loading state
 
   useEffect(() => {
     const fetchCountries = async () => {
       try {
         console.log('API call started...');
-        const response = await fetch('https://countries-search-data-prod-812920491762.asia-south1.run.app/countries');
+        const response = await fetch(
+          'https://countries-search-data-prod-812920491762.asia-south1.run.app/countries'
+        );
         if (!response.ok) {
           throw new Error(`API returned status ${response.status}`);
         }
@@ -28,6 +31,8 @@ const CountrySearch = () => {
       } catch (err) {
         console.error(`Error fetching countries: ${err.message}`);
         setError('Error fetching country data');
+      } finally {
+        setLoading(false); // stop loading
       }
     };
 
@@ -51,7 +56,10 @@ const CountrySearch = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="search-bar"
       />
+
       {error && <div className="error-message">{error}</div>}
+      {loading && <p>Loading...</p>} {/* show loading only while fetching */}
+
       <div className="country-grid">
         {filteredCountries.length > 0 ? (
           filteredCountries.map((country) => (
@@ -65,7 +73,7 @@ const CountrySearch = () => {
             </div>
           ))
         ) : (
-          <p>No countries found</p>
+          !loading && searchTerm && <p>No countries found</p>
         )}
       </div>
     </div>
